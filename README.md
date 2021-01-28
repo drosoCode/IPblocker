@@ -49,7 +49,7 @@ The following fields are processed:
 ### <ins>PFsense</ins>:
 [Install FauxAPI](https://github.com/ndejong/pfsense_fauxapi#installation)  
 Edit the /etc/fauxapi/credentials.ini file and [create a user](https://github.com/ndejong/pfsense_fauxapi#api-authentication)  
-Give this user the following permissions: `permit = config_get, config_set, send_event``  
+Give this user the following permissions: `permit = config_get, config_set, send_event`   
 Create an IP Alias of Host Type  
 
 ## Screenshots
