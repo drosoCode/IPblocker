@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+<li class="nav-item">
+  <a href="/" class="nav-link">Home</a>
+</li>
+<li class="nav-item active">
+  <a href="/logs" class="nav-link">Logs</a>
+</li>
+<li class="nav-item">
+  <a href="/admin" class="nav-link">Admin</a>
+</li>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="mx-10 my-10">
+
+    <div class="card">
+        <h2 class="card-title">
+          Bans
+        </h2>
+      
+    <table class="table">
+        <thead>
+          <tr>
+            <th>IP</th>
+            <th>Country</th>
+            <th>City</th>
+            <th>Level</th>
+            <th>Rule</th>
+            <td class="text-right">Date</td>
+          </tr>
+        </thead>
+        <tbody>
+            {% for x in logs %}
+            <tr>
+                <th>{{ x.ip }}</th>
+                <td>{{ x.country }}</td>
+                <td>{{ x.city }}</td>
+                <td>{{ x.level }}</td>
+                <td>{{ x.rule }}</td>
+                <td class="text-right">{{ x.datetime }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+</div>
+
+{% endblock %}

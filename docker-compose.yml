@@ -1,0 +1,14 @@
+version: "3"
+services:
+  ipblocker:
+    build: .
+    ports:
+      - 7999:8080
+    volumes:
+      - /app/docker/data/IPblocker/config.json:/app/config.json
+    networks: 
+      - db_network
+
+networks:
+  db_network:
+    external: true

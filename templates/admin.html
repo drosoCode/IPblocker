@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+<li class="nav-item">
+  <a href="/" class="nav-link">Home</a>
+</li>
+<li class="nav-item">
+  <a href="/logs" class="nav-link">Logs</a>
+</li>
+<li class="nav-item active">
+  <a href="/admin" class="nav-link">Admin</a>
+</li>
+{% endblock %}
+
+{% block content %}
+{% if alert_type != "" %}
+<div class="alert alert-{{ alert_type }}" role="alert">
+    <button class="close" data-dismiss="alert" type="button" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="alert-heading">{{ alert_txt }}</h4>
+</div>
+{% endif %}
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <h2 class="card-title">
+        Ban IP
+      </h2>
+      <form action="/admin" method="POST">
+        <input type="text" class="form-control" placeholder="IP" name="add_ip">
+        <br>
+        <div class="text-right">
+            <input class="btn btn-danger" type="submit" value="OK">
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card">
+      <h2 class="card-title">
+        Unban IP
+      </h2>
+      <form action="/admin" method="POST">
+        <select class="form-control" name="delete_ip_id">
+            <option value="" selected="selected" disabled="disabled">Select IP</option>
+            {% for x in ips %}
+                <option value="{{ x.idIP }}">{{ x.ip }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <div class="text-right">
+            <input class="btn btn-success" type="submit" value="OK">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

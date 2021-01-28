@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+<li class="nav-item active">
+  <a href="/" class="nav-link">Home</a>
+</li>
+<li class="nav-item">
+  <a href="/logs" class="nav-link">Logs</a>
+</li>
+<li class="nav-item">
+  <a href="/admin" class="nav-link">Admin</a>
+</li>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-6 col-lg-3">
+    <div class="card">
+      <h2 class="card-title">
+        System
+      </h2>
+      <p class="text-muted">
+        Start Date: {{ up_since }}
+      </p>
+      <p class="text-muted">
+        PFsense Update: {{ pf_update }}
+      </p>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-lg-3">
+    <div class="card">
+      <h2 class="card-title">
+        Short Bans
+      </h2>
+      <div class="progress-group">
+        <span class="text-muted">
+          LVL 1: &nbsp;&nbsp;
+        </span>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width: {{ bans_count.lvl1 / bans_count_max * 100 }}%" aria-valuenow="{{ bans_count.lvl1 }}" aria-valuemin="0" aria-valuemax="{{ bans_count_max }}"></div>
+        </div>
+        <span class="text-muted">
+          &nbsp;&nbsp;{{ bans_count.lvl1 }} / {{ bans_count_max }}
+        </span>
+      </div>
+      <br>
+      <div class="progress-group">
+        <span class="text-muted">
+          LVL 2: &nbsp;&nbsp;
+        </span>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width: {{ bans_count.lvl2 / bans_count_max * 100 }}%" aria-valuenow="{{ bans_count.lvl2 }}" aria-valuemin="0" aria-valuemax="{{ bans_count_max }}"></div>
+        </div>
+        <span class="text-muted">
+          &nbsp;&nbsp;{{ bans_count.lvl2 }} / {{ bans_count_max }}
+        </span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-6 col-lg-3">
+    <div class="card">
+      <h2 class="card-title">
+        Long Bans
+      </h2>
+      <div class="progress-group">
+        <span class="text-muted">
+          LVL 3: &nbsp;&nbsp;
+        </span>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width: {{ bans_count.lvl3 / bans_count_max * 100 }}%" aria-valuenow="{{ bans_count.lvl3 }}" aria-valuemin="0" aria-valuemax="{{ bans_count_max }}"></div>
+        </div>
+        <span class="text-muted">
+          &nbsp;&nbsp;{{ bans_count.lvl3 }} / {{ bans_count_max }}
+        </span>
+      </div>
+      <br>
+      <div class="progress-group">
+        <span class="text-muted">
+          LVL 4: &nbsp;&nbsp;
+        </span>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width: {{ bans_count.lvl4 / bans_count_max * 100 }}%" aria-valuenow="{{ bans_count.lvl4 }}" aria-valuemin="0" aria-valuemax="{{ bans_count_max }}"></div>
+        </div>
+        <span class="text-muted">
+          &nbsp;&nbsp;{{ bans_count.lvl4 }} / {{ bans_count_max }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-lg-3">
+    <div class="card">
+      <h2 class="card-title">
+        Locations
+      </h2>
+        {% for x in ban_countries %}
+          <div class="progress-group">
+            <span class="text-muted">
+            {% if x.country != "" %}
+              {{ x.country }}: &nbsp;&nbsp;
+            {% else %}
+              Unknown: &nbsp;&nbsp;
+            {% endif %}
+            </span>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: {{ x.nb / ban_countries_max * 100 }}%" aria-valuenow="{{ x.nb }}" aria-valuemin="0" aria-valuemax="{{ ban_countries_max }}"></div>
+            </div>
+            <span class="text-muted">
+              &nbsp;&nbsp;{{ x.nb }} / {{ ban_countries_max }}
+            </span>
+          </div>
+        {% endfor %}
+      </h2>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

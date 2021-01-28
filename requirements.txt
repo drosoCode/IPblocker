@@ -1,0 +1,4 @@
+pfsense-fauxapi
+flask
+mysql-connector
+discord.py

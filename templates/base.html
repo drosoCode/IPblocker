@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="icon" href="static/favicon.ico">
+  <title>IP Blocker</title>
+  <link href="static/halfmoon.min.css" rel="stylesheet" />
+</head>
+<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true">
+  <div class="page-wrapper with-navbar">
+    <div class="sticky-alerts"></div>
+
+    <nav class="navbar">
+        <div class="navbar-content">
+            <!-- Navbar brand -->
+            <a href="#" class="navbar-brand">
+            <img src="static/favicon.ico">
+                IP Blocker
+            </a>
+            <!-- Navbar nav -->
+            <ul class="navbar-nav d-flex">
+                {% block navbar %} {% endblock %}
+            </ul>
+    </nav>
+
+    <div class="content-wrapper">
+        {% block content %} {% endblock %}
+    </div>
+  <script src="static/halfmoon.min.js"></script>
+</body>
+</html>
