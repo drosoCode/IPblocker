@@ -68,7 +68,7 @@ class ServerThread(threading.Thread):
             "FROM ban b INNER JOIN ip i ON (b.idIP = i.idIP) "
             "WHERE banned = 1 "
             "GROUP BY ip "
-            "ORDER BY level DESC, timestamp DESC;"
+            "ORDER BY timestamp DESC;"
         )
         data = cursor.fetchall()
         for i in range(len(data)):
@@ -124,7 +124,7 @@ class ServerThread(threading.Thread):
                     alert_txt = "Failed to ban IP"
 
         cursor.execute(
-            "SELECT i.idIP, ip FROM ip i INNER JOIN ban b ON (i.idIP = b.idIP) WHERE banned = 1;"
+            "SELECT i.idIP, ip FROM ip i INNER JOIN ban b ON (i.idIP = b.idIP) WHERE banned = 1 ORDER BY ip;"
         )
         return render_template(
             "admin.html",
