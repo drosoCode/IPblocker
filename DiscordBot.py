@@ -68,7 +68,8 @@ async def on_message(message):
             "FROM ban b INNER JOIN ip i ON (b.idIP = i.idIP) "
             "WHERE banned = 1 "
             "GROUP BY ip "
-            "ORDER BY level DESC, timestamp DESC;"
+            "ORDER BY timestamp DESC"
+            "LIMIT 15;"
         )
         msg = "```"
         msg += (
