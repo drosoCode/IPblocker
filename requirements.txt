@@ -1,4 +1,4 @@
-pfsense-fauxapi
+requests
 flask
 mysql-connector
 discord.py

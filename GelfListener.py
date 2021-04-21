@@ -6,7 +6,7 @@ import threading
 import time
 from dbHelper import sql
 from queue import Queue
-from BanProcessor import processBan, updatePfsense
+from BanProcessor import processBan, updateOpnsense
 
 
 class GelfThread(threading.Thread):
@@ -54,4 +54,4 @@ class GelfThread(threading.Thread):
         cursor = conn.cursor()
         processBan(data, cursor, self._notifsQueue)
         conn.commit()
-        updatePfsense(self._cfg, cursor)
+        updateOpnsense(self._cfg, cursor)

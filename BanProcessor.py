@@ -1,6 +1,6 @@
 import threading
 import time
-from PfsenseFauxapi.PfsenseFauxapi import PfsenseFauxapi
+import requests
 from dbHelper import sql
 from queue import Queue
 from datetime import datetime
@@ -120,7 +120,7 @@ class BanThread(threading.Thread):
                 )
 
             conn.commit()
-            updatePfsense(self._cfg, cursor)
+            updateOpnsense(self._cfg, cursor)
 
 
 def processBan(data: dict, cursor, notifsQueue):
@@ -183,30 +183,51 @@ def processBan(data: dict, cursor, notifsQueue):
         )
 
 
-def updatePfsense(cfg, cursor):
-    print("updating pfsense")
+def opnsenseRequest(cfg, endpoint, isGet, data=None):
+    if isGet:
+        return requests.get(
+            "http://" + cfg["api_host"] + "/api/" + endpoint,
+            auth=(cfg["api_key"], cfg["api_secret"]),
+        ).json()
+    else:
+        return requests.post(
+            "http://" + cfg["api_host"] + "/api/" + endpoint,
+            auth=(cfg["api_key"], cfg["api_secret"]),
+            data=data,
+        ).json()
+
+
+def updateOpnsense(cfg, cursor):
+    print("updating OPNsense")
     cursor.execute(
         "SELECT DISTINCT ip FROM ip i INNER JOIN ban b ON (i.idIP = b.idIP) WHERE banned = 1"
     )
-    data = " ".join(map(lambda x: x["ip"], cursor.fetchall()))
+    data = list(map(lambda x: x["ip"], cursor.fetchall()))
 
     if data != BanThread.ipData:
         print("new data ")
-        FauxapiLib = PfsenseFauxapi(
-            cfg["fauxapi_host"],
-            cfg["fauxapi_apikey"],
-            cfg["fauxapi_apisecret"],
+        aliases = opnsenseRequest(
+            cfg, "firewall/alias_util/list/" + cfg["api_alias_name"], True
         )
-        system_config = FauxapiLib.config_get()
-        for i in range(len(system_config["aliases"]["alias"])):
-            if (
-                system_config["aliases"]["alias"][i]["name"]
-                == cfg["fauxapi_alias_name"]
-            ):
-                system_config["aliases"]["alias"][i]["address"] = data
-                print(data)
+        aliasesIP = []
+        for i in aliases["rows"]:
+            if i["ip"] not in data:
+                opnsenseRequest(
+                    cfg,
+                    "firewall/alias_util/delete/" + cfg["api_alias_name"],
+                    False,
+                    {"address": i["ip"]},
+                )
+            else:
+                aliasesIP.append(i["ip"])
+        for i in data:
+            if i not in aliasesIP:
+                opnsenseRequest(
+                    cfg,
+                    "firewall/alias_util/add/" + cfg["api_alias_name"],
+                    False,
+                    {"address": i},
+                )
 
-        print(FauxapiLib.config_set(system_config))
-        print(FauxapiLib.send_event("filter reload"))
         BanThread.ipData = data
         BanThread.lastUpdate = datetime.now()

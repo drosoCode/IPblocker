@@ -2,7 +2,7 @@ from dbHelper import sql
 import threading
 from flask import Flask, render_template, request
 from datetime import datetime
-from BanProcessor import BanThread, processBan, updatePfsense
+from BanProcessor import BanThread, processBan, updateOpnsense
 
 startDate = datetime.now()
 
@@ -98,7 +98,7 @@ class ServerThread(threading.Thread):
                 )
                 conn.commit()
                 if cursor.rowcount > 0:
-                    updatePfsense(ServerThread.cfg, cursor)
+                    updateOpnsense(ServerThread.cfg, cursor)
                     alert_type = "success"
                     alert_txt = "IP unbanned successfully"
                 else:
@@ -116,7 +116,7 @@ class ServerThread(threading.Thread):
                 conn.commit()
 
                 if cursor.rowcount > 0:
-                    updatePfsense(ServerThread.cfg, cursor)
+                    updateOpnsense(ServerThread.cfg, cursor)
                     alert_type = "success"
                     alert_txt = "IP banned successfully"
                 else:

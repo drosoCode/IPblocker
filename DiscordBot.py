@@ -5,7 +5,7 @@ import time
 from dbHelper import sql
 from datetime import datetime
 import math
-from BanProcessor import processBan, updatePfsense
+from BanProcessor import processBan, updateOpnsense
 
 client = discord.Client()
 notifsQueue = None
@@ -47,7 +47,7 @@ async def on_message(message):
         processBan(data, cursor, notifsQueue)
         conn.commit()
         if cursor.rowcount > 0:
-            updatePfsense(cfg, cursor)
+            updateOpnsense(cfg, cursor)
             await message.channel.send("OK")
         else:
             await message.channel.send("ERR")
@@ -58,7 +58,7 @@ async def on_message(message):
         )
         conn.commit()
         if cursor.rowcount > 0:
-            updatePfsense(cfg, cursor)
+            updateOpnsense(cfg, cursor)
             await message.channel.send("OK")
         else:
             await message.channel.send("ERR")
@@ -68,7 +68,7 @@ async def on_message(message):
             "FROM ban b INNER JOIN ip i ON (b.idIP = i.idIP) "
             "WHERE banned = 1 "
             "GROUP BY ip "
-            "ORDER BY timestamp DESC"
+            "ORDER BY timestamp DESC "
             "LIMIT 15;"
         )
         msg = "```"

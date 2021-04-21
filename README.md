@@ -1,6 +1,6 @@
-# IP Blocker for Graylog and PFsense
+# IP Blocker for Graylog and OPNsense
 
-Software to block IPs on pfsense firewall (via [FauxAPI](https://github.com/ndejong/pfsense_fauxap)) based on a gelf stream
+Software to block IPs on OPNsense firewall based on a gelf stream
 
 ## Installation
  - Import db.sql in your database system (Maria DB recommanded)
@@ -17,10 +17,10 @@ Software to block IPs on pfsense firewall (via [FauxAPI](https://github.com/ndej
 | db_name | Database Name |
 | gelf_bind_addr | Gelf listener bind address |
 | gelf_port | Gelf listener port |
-| fauxapi_host | PFsense IP |
-| fauxapi_apikey | PFsense FauxAPI key |
-| fauxapi_apisecret | PFsense FauxAPI secret |
-| fauxapi_alias_name | PFsense Alias Table Name |
+| fauxapi_host | OPNsense IP |
+| fauxapi_apikey | OPNsense FauxAPI key |
+| fauxapi_apisecret | OPNsense FauxAPI secret |
+| fauxapi_alias_name | OPNsense Alias Table Name |
 | enable_ban_notif | Enable discord notification for each ip ban |
 | bot_token | discord bot token (leave empty to disable the bot) |
 | bot_channel | discord channel id to send notifications (in discord with dev mode, right click on the channel -> Copy Identifier) |
@@ -46,11 +46,9 @@ The following fields are processed:
  - src_ip_geo_city: the city associated to the IP (optional)
  - fields: json that can contains the previous fields (optional)
 
-### <ins>PFsense</ins>:
-[Install FauxAPI](https://github.com/ndejong/pfsense_fauxapi#installation)  
-Edit the /etc/fauxapi/credentials.ini file and [create a user](https://github.com/ndejong/pfsense_fauxapi#api-authentication)  
-Give this user the following permissions: `permit = config_get, config_set, send_event`   
-Create an IP Alias of Host Type  
+### <ins>OPNsense</ins>:
+Create an api key (`System > Access > Users`)
+Create an IP Alias of Host Type (`Firewall > Aliases`)
 
 ## Screenshots
 
