@@ -57,7 +57,7 @@ class BanThread(threading.Thread):
         )
         # delete expired level 3 bans
         cursor.execute(
-            "DELETE FROM ban WHERE level = 2 AND banned = 1 AND timestamp < %(time)s;",
+            "DELETE FROM ban WHERE level = 3 AND banned = 1 AND timestamp < %(time)s;",
             {"time": int(time.time()) - self._cfg["level_3_ban_time"]},
         )
         # delete ip without any ban rule
