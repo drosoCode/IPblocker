@@ -17,10 +17,12 @@ Software to block IPs on OPNsense firewall based on a gelf stream
 | db_name | Database Name |
 | gelf_bind_addr | Gelf listener bind address |
 | gelf_port | Gelf listener port |
-| fauxapi_host | OPNsense IP |
-| fauxapi_apikey | OPNsense FauxAPI key |
-| fauxapi_apisecret | OPNsense FauxAPI secret |
-| fauxapi_alias_name | OPNsense Alias Table Name |
+| api_host | OPNsense IP |
+| api_apikey | OPNsense API key |
+| api_secret | OPNsense API secret |
+| api_alias_name | OPNsense Alias Name (host type) |
+| api_scheme | http or https |
+| api_verify | Enable / disable certificate verification |
 | enable_ban_notif | Enable discord notification for each ip ban |
 | bot_token | discord bot token (leave empty to disable the bot) |
 | bot_channel | discord channel id to send notifications (in discord with dev mode, right click on the channel -> Copy Identifier) |

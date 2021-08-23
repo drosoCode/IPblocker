@@ -5,10 +5,13 @@ from dbHelper import sql
 from queue import Queue
 from datetime import datetime
 import re
+from urllib3.exceptions import InsecureRequestWarning
 
 
 class BanThread(threading.Thread):
     def __init__(self, cfg, notifsQueue):
+        if not cfg["api_verify"]:
+            requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
         threading.Thread.__init__(self)
         self._cfg = cfg
         self._continue = True
@@ -38,27 +41,27 @@ class BanThread(threading.Thread):
         # delete outdated level 1 bans warnings
         cursor.execute(
             "DELETE FROM ban WHERE level = 1 AND banned = 0 AND timestamp < %(time)s;",
-            {"time": int(time.time()) - self._cfg["level_1_detect_time"]},
+            {"time": int(time.time() - self._cfg["level_1_detect_time"])},
         )
         # delete outdated level 2 bans warnings
         cursor.execute(
             "DELETE FROM ban WHERE level = 2 AND banned = 0 AND timestamp < %(time)s;",
-            {"time": int(time.time()) - self._cfg["level_2_detect_time"]},
+            {"time": int(time.time() - self._cfg["level_2_detect_time"])},
         )
         # delete expired level 1 bans
         cursor.execute(
             "DELETE FROM ban WHERE level = 1 AND banned = 1 AND timestamp < %(time)s;",
-            {"time": int(time.time()) - self._cfg["level_1_ban_time"]},
+            {"time": int(time.time() - self._cfg["level_1_ban_time"])},
         )
         # delete expired level 2 bans
         cursor.execute(
             "DELETE FROM ban WHERE level = 2 AND banned = 1 AND timestamp < %(time)s;",
-            {"time": int(time.time()) - self._cfg["level_2_ban_time"]},
+            {"time": int(time.time() - self._cfg["level_2_ban_time"])},
         )
         # delete expired level 3 bans
         cursor.execute(
             "DELETE FROM ban WHERE level = 3 AND banned = 1 AND timestamp < %(time)s;",
-            {"time": int(time.time()) - self._cfg["level_3_ban_time"]},
+            {"time": int(time.time() - self._cfg["level_3_ban_time"])},
         )
         # delete ip without any ban rule
         cursor.execute("DELETE FROM ip WHERE idIP NOT IN (SELECT idIP FROM ban);")
@@ -119,8 +122,8 @@ class BanThread(threading.Thread):
                     (ipData["ip"], ipData["country"], ipData["city"], ipData["rule"], 1)
                 )
 
-            conn.commit()
-            updateOpnsense(self._cfg, cursor)
+        conn.commit()
+        updateOpnsense(self._cfg, cursor)
 
 
 def processBan(data: dict, cursor, notifsQueue):
@@ -186,14 +189,16 @@ def processBan(data: dict, cursor, notifsQueue):
 def opnsenseRequest(cfg, endpoint, isGet, data=None):
     if isGet:
         return requests.get(
-            "http://" + cfg["api_host"] + "/api/" + endpoint,
+            cfg["api_scheme"] + "://" + cfg["api_host"] + "/api/" + endpoint,
             auth=(cfg["api_key"], cfg["api_secret"]),
+            verify=cfg["api_verify"],
         ).json()
     else:
         return requests.post(
-            "http://" + cfg["api_host"] + "/api/" + endpoint,
+            cfg["api_scheme"] + "://" + cfg["api_host"] + "/api/" + endpoint,
             auth=(cfg["api_key"], cfg["api_secret"]),
             data=data,
+            verify=cfg["api_verify"],
         ).json()
 
 

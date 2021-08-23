@@ -9,6 +9,8 @@
     "api_key": "",
     "api_secret": "",
     "api_alias_name": "block_list",
+    "api_scheme": "https",
+    "api_verify": false,
     "enable_ban_notif": true,
     "bot_token": "",
     "bot_channel": 123,
