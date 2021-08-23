@@ -26,7 +26,7 @@ class ServerThread(threading.Thread):
         cursor = conn.cursor()
 
         cursor.execute(
-            "SELECT SUM(IF(level=1,1,0)) AS lvl1, SUM(IF(level=2,1,0)) AS lvl2, SUM(IF(level=3,1,0)) AS lvl3, SUM(IF(level=4,1,0)) AS lvl4 "
+            "SELECT COALESCE(SUM(IF(level=1,1,0)),0) AS lvl1, COALESCE(SUM(IF(level=2,1,0)),0) AS lvl2, COALESCE(SUM(IF(level=3,1,0)),0) AS lvl3, COALESCE(SUM(IF(level=4,1,0)),0) AS lvl4 "
             "FROM ban "
             "WHERE banned = 1 "
         )

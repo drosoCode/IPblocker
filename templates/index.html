@@ -40,7 +40,7 @@
           LVL 1: &nbsp;&nbsp;
         </span>
         <div class="progress">
-          <div class="progress-bar" role="progressbar" style="width: {{ bans_count.lvl1 / bans_count_max * 100 }}%" aria-valuenow="{{ bans_count.lvl1 }}" aria-valuemin="0" aria-valuemax="{{ bans_count_max }}"></div>
+          <div class="progress-bar" role="progressbar" style="width: {{ bans_count.lvl1 / bans_count_max * 100 if bans_count_max > 0 else 0 }}%" aria-valuenow="{{ bans_count.lvl1 }}" aria-valuemin="0" aria-valuemax="{{ bans_count_max }}"></div>
         </div>
         <span class="text-muted">
           &nbsp;&nbsp;{{ bans_count.lvl1 }} / {{ bans_count_max }}
@@ -52,7 +52,7 @@
           LVL 2: &nbsp;&nbsp;
         </span>
         <div class="progress">
-          <div class="progress-bar" role="progressbar" style="width: {{ bans_count.lvl2 / bans_count_max * 100 }}%" aria-valuenow="{{ bans_count.lvl2 }}" aria-valuemin="0" aria-valuemax="{{ bans_count_max }}"></div>
+          <div class="progress-bar" role="progressbar" style="width: {{ bans_count.lvl2 / bans_count_max * 100 if bans_count_max > 0 else 0 }}%" aria-valuenow="{{ bans_count.lvl2 }}" aria-valuemin="0" aria-valuemax="{{ bans_count_max }}"></div>
         </div>
         <span class="text-muted">
           &nbsp;&nbsp;{{ bans_count.lvl2 }} / {{ bans_count_max }}
@@ -71,7 +71,7 @@
           LVL 3: &nbsp;&nbsp;
         </span>
         <div class="progress">
-          <div class="progress-bar" role="progressbar" style="width: {{ bans_count.lvl3 / bans_count_max * 100 }}%" aria-valuenow="{{ bans_count.lvl3 }}" aria-valuemin="0" aria-valuemax="{{ bans_count_max }}"></div>
+          <div class="progress-bar" role="progressbar" style="width: {{ bans_count.lvl3 / bans_count_max * 100 if bans_count_max > 0 else 0 }}%" aria-valuenow="{{ bans_count.lvl3 }}" aria-valuemin="0" aria-valuemax="{{ bans_count_max }}"></div>
         </div>
         <span class="text-muted">
           &nbsp;&nbsp;{{ bans_count.lvl3 }} / {{ bans_count_max }}
@@ -83,7 +83,7 @@
           LVL 4: &nbsp;&nbsp;
         </span>
         <div class="progress">
-          <div class="progress-bar" role="progressbar" style="width: {{ bans_count.lvl4 / bans_count_max * 100 }}%" aria-valuenow="{{ bans_count.lvl4 }}" aria-valuemin="0" aria-valuemax="{{ bans_count_max }}"></div>
+          <div class="progress-bar" role="progressbar" style="width: {{ bans_count.lvl4 / bans_count_max * 100 if bans_count_max > 0 else 0 }}%" aria-valuenow="{{ bans_count.lvl4 }}" aria-valuemin="0" aria-valuemax="{{ bans_count_max }}"></div>
         </div>
         <span class="text-muted">
           &nbsp;&nbsp;{{ bans_count.lvl4 }} / {{ bans_count_max }}
@@ -107,7 +107,7 @@
             {% endif %}
             </span>
             <div class="progress">
-              <div class="progress-bar" role="progressbar" style="width: {{ x.nb / ban_countries_max * 100 }}%" aria-valuenow="{{ x.nb }}" aria-valuemin="0" aria-valuemax="{{ ban_countries_max }}"></div>
+              <div class="progress-bar" role="progressbar" style="width: {{ x.nb / ban_countries_max * 100 if ban_countries_max > 0 else 0 }}%" aria-valuenow="{{ x.nb }}" aria-valuemin="0" aria-valuemax="{{ ban_countries_max }}"></div>
             </div>
             <span class="text-muted">
               &nbsp;&nbsp;{{ x.nb }} / {{ ban_countries_max }}
